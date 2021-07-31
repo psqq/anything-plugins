@@ -6,11 +6,13 @@
         return res.json();
       })
       .then(async (files) => {
+        a.plugins = [];
         let promises = [];
         for(let file of files) {
           promises.push(a.download_plugin(file.download_url));
         }
         await Promise.all(promises);
+        for(let plugin of a.plugins) 
         update_list_of_plugins();
       });
   }
