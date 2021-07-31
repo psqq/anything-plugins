@@ -5,8 +5,13 @@
       .then((res) => {
         return res.json();
       })
-      .then((body) => {
-        document.body.innerHTML = `<pre>${JSON.stringify(body, null, 2)}</pre>`;
+      .then(async (files) => {
+        let promises = [];
+        for(let file of files) {
+          promises.push(a.download_plugin(file.download_url));
+        }
+        await Promise.all(promises);
+        update_list_of_plugins();
       });
   }
 }
