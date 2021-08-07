@@ -9,12 +9,13 @@
                 return res.json();
             })
             .then(async (files) => {
-                let plugins = [];
+                let promises = [];
                 for (let file of files) {
-                    plugins.push(a.just_download_plugin(file.download_url));
+                    promises.push(a.just_download_plugin(file.download_url));
                 }
-                await Promise.all(plugins);
-                console.log(plugins);
+                await Promise.all(promises);
+                let plugins = [];
+                promises.forEach(p => p.then(plugin => plugins.push(plugin)));
                 for (let p of plugins) {
                     var i = a.plugins.findIndex(p => p.author == 'psqq' && p.tags.includes('psqq-plugins-group') && p.id === p.id);
                     if (i < 0) i = a.add_plugin(p);
