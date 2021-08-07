@@ -15,7 +15,8 @@
                 }
                 await Promise.all(promises);
                 let plugins = [];
-                promises.forEach(p => p.then(plugin => plugins.push(plugin)));
+                promises.forEach(async (p) => await p.then(plugin => plugins.push(plugin)));
+                console.log(plugins);
                 for (let p of plugins) {
                     var i = a.plugins.findIndex(p => p.author == 'psqq' && p.tags.includes('psqq-plugins-group') && p.id === p.id);
                     if (i < 0) i = a.add_plugin(p);
