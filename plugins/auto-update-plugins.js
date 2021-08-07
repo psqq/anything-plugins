@@ -13,12 +13,16 @@
                 for (let file of files) {
                     plugins.push(a.just_download_plugin(file.download_url));
                 }
-                await Promise.all(promises);
+                await Promise.all(plugins);
+                console.log(plugins);
                 for (let p of plugins) {
                     var i = a.plugins.findIndex(p => p.author == 'psqq' && p.tags.includes('psqq-plugins-group') && p.id === p.id);
-                    if (i < 0) a.just_download_plugin(p);
+                    if (i < 0) i = a.add_plugin(p);
                     else a.plugins[i] = p;
+                    p.___meta.saved = true;
                 }
+                a.save_plugins();
+                a.ui.render_list_of_plugins();
             });
     }
 })
